@@ -9,5 +9,10 @@ Standard: https://en.wikipedia.org/wiki/JSON_Web_Token#Standard_fields
 
 ## PASSPORT
 
-
+LOCAL Strategy: https://github.com/jaredhanson/passport-local
 JWT Strategy: https://github.com/themikenicholson/passport-jwt
+
+
+## Postman request
+
+https://www.getpostman.com/collections/511ffc4ec27b89cb1937
