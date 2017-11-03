@@ -5,25 +5,61 @@ const passport = require('passport');
 const requireAuth = passport.authenticate('jwt', { session: false });
 const requireAuthLocal = passport.authenticate('local', { session: false });
 module.exports = function(app) {
-  //Home Public
+  /**
+   * @api {get} / Home Page
+   * @apiGroup Home
+   *
+   *
+   * @apiSuccess {String} apiUrl URL API DOCUMENTATION.
+   */
   app.get('/', function(req, res) {
-    res.send({
-      api: {
-        '/secret': 'requireAuth TOKEN',
-        '/signin': 'requireAuthLocal email and password',
-        '/signup': 'create a user with email and password'
-      }
-    });
+    res.send({ apiUrl: '/apidoc' });
+  });
+  /**
+   * @api {get} /apidoc Api DOCS
+   * @apiGroup Home
+   *
+   *
+   * @apiSuccess {Html}  URL API DOCUMENTATION.
+   */
+  app.get('/apidoc', function(req, res) {
+    res.sendFile(express.static(__dirname + '/apidoc'));
   });
 
-  //Require TOKEN
+  /**
+   * @api {get} /secret Secret resource!
+   * @apiGroup User
+   *
+   * @apiHeader {String} authorization Authorization value.
+   *
+   * @apiSuccess {String} message Message for the user.
+   * @apiSuccess {String} lastname  Lastname of the User.
+   */
   app.get('/secret', requireAuth, function(req, res) {
-    res.send({ private: 'message' });
+    res.send({ message: 'message', lastname: req.user });
   });
 
-  //Require email & pass
+  /**
+   * @api {post} /signin Signin
+   * @apiName Signin
+   * @apiGroup User
+   *
+   * @apiParam {String} email Users unique email.
+   * @apiParam {String} password Users password.
+   *
+   * @apiSuccess {String} token JWT Token.
+   */
   app.post('/signin', requireAuthLocal, Signin);
 
-  //SIGNUP
+  /**
+   * @api {post} /signup Signup
+   * @apiName Signup
+   * @apiGroup User
+   *
+   * @apiParam {String} email Users unique email.
+   * @apiParam {String} password Users password.
+   *
+   * @apiSuccess {String} token JWT Token.
+   */
   app.post('/signup', Signup);
 };

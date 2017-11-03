@@ -12,6 +12,7 @@ mongoose.connect(config.mongoURI);
 
 //create app
 const app = express();
+app.use(express.static(__dirname + '/apidoc'));
 app.use(morgan('combined'));
 app.use(bodyParser.json({ type: '*/*' }));
 //router
